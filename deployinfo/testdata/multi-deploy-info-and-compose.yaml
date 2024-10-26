@@ -1,0 +1,13 @@
+prod-locations:
+  - "/production/mach/website"
+  - "/production/mach3/website3"
+  - "/otherloc/qwerty/product5"
+
+staging-locations:
+  - "/production/mach4/db"
+  - "/production/mach500/website3"
+  - "/otherloc/asdf/product10"
+
+compose-information:
+  values-file: "my-values.yaml"
+  template-file: "my-template.template"

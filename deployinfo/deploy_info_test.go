@@ -2,10 +2,9 @@ package deployinfo
 
 import (
 	"errors"
+	"os"
 	"reflect"
 	"testing"
-
-	"github.com/Loptt/infra-utils/file"
 )
 
 func TestNewDeployInfo(t *testing.T) {
@@ -46,6 +45,40 @@ func TestNewDeployInfo(t *testing.T) {
 			want_err: nil,
 		},
 		{
+			description:    "Test create deploy info with multiple locations and compose info",
+			deployInfoPath: "./testdata/multi-deploy-info-and-compose.yaml",
+			want: &DeployInfo{
+				DeployData{
+					ProdLocations: []string{
+						"/production/mach/website",
+						"/production/mach3/website3",
+						"/otherloc/qwerty/product5",
+					},
+					StagingLocations: []string{
+						"/production/mach4/db",
+						"/production/mach500/website3",
+						"/otherloc/asdf/product10",
+					},
+					CI: ComposeInformation{
+						ValuesFile:   "my-values.yaml",
+						TemplateFile: "my-template.template",
+					},
+				}},
+			want_err: nil,
+		},
+		{
+			description:    "Test create deploy info only compose info",
+			deployInfoPath: "./testdata/single-compose.yaml",
+			want: &DeployInfo{
+				DeployData{
+					CI: ComposeInformation{
+						ValuesFile:   "my-values.yaml",
+						TemplateFile: "my-template.template",
+					},
+				}},
+			want_err: nil,
+		},
+		{
 			description:    "Test create with invalid deploy info format",
 			deployInfoPath: "./testdata/bad-deploy-info.yaml",
 			want:           nil,
@@ -54,8 +87,11 @@ func TestNewDeployInfo(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		f := &file.FileManager{}
-		got, err := NewDeployInfo(test.deployInfoPath, f)
+		content, err := os.ReadFile(test.deployInfoPath)
+		if err != nil {
+			t.Errorf("Test #%d %s: failed to read file %s: %v", i, test.description, test.deployInfoPath, err)
+		}
+		got, err := NewDeployInfo(string(content))
 
 		// If we are exepcting an error, then check that we actually get one.
 		if test.want_err != nil {

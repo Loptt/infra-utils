@@ -1,0 +1,3 @@
+compose-information:
+  values-file: "my-values.yaml"
+  template-file: "my-template.template"

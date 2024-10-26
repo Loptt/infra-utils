@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Loptt/infra-utils/file"
 	"gopkg.in/yaml.v3"
 )
 
@@ -22,6 +21,12 @@ func (d *DeployInfo) ProdLocations() []string {
 // environment.
 func (d *DeployInfo) StagingLocations() []string {
 	return d.data.StagingLocations
+}
+
+// ComposeInformation returns all the data necessary to manage compose files at
+// the deploy locations.
+func (d *DeployInfo) ComposeInformation() ComposeInformation {
+	return d.data.CI
 }
 
 // String representation of DeployInfo. It is human readable but not machine
@@ -42,6 +47,10 @@ func (d DeployInfo) String() string {
 		b.Write([]byte(fmt.Sprintf("    Location %d: %s\n", i, v)))
 	}
 
+	b.WriteString("  Compose Information:\n")
+	b.WriteString(fmt.Sprintf("    Values File: %s\n", d.data.CI.ValuesFile))
+	b.WriteString(fmt.Sprintf("    Template File: %s\n", d.data.CI.TemplateFile))
+
 	return b.String()
 }
 
@@ -56,12 +65,7 @@ func parseDeployData(rawData string) (DeployData, error) {
 
 // NewdeplotInfo creates a new DeployInfo struct based on a YAML file specified
 // by the path argument. The file argument specifies a FileManager object to use.
-func NewDeployInfo(path string, f file.FileManagerInterface) (*DeployInfo, error) {
-	content, err := f.Read(path)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read deploy info path %s, got err: %v", path, err)
-	}
-
+func NewDeployInfo(content string) (*DeployInfo, error) {
 	data, err := parseDeployData(content)
 	if err != nil {
 		return nil, err
