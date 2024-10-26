@@ -5,4 +5,5 @@ package deployinfo
 type DeployInfoInterface interface {
 	ProdLocations() []string
 	StagingLocations() []string
+	ComposeInformation() ComposeInformation
 }
