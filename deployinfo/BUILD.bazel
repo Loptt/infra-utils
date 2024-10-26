@@ -9,10 +9,7 @@ go_library(
     ],
     importpath = "github.com/Loptt/infra-utils/deployinfo",
     visibility = ["//visibility:public"],
-    deps = [
-        "//file",
-        "@in_gopkg_yaml_v3//:yaml_v3",
-    ],
+    deps = ["@in_gopkg_yaml_v3//:yaml_v3"],
 )
 
 go_test(
@@ -20,5 +17,4 @@ go_test(
     srcs = ["deploy_info_test.go"],
     data = glob(["testdata/**"]),
     embed = [":deployinfo"],
-    deps = ["//file"],
 )
