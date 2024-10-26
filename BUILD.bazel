@@ -1,0 +1,5 @@
+load("@gazelle//:def.bzl", "gazelle")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+# gazelle:prefix github.com/Loptt/infra-utils
+gazelle(name = "gazelle")

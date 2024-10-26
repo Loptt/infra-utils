@@ -1,0 +1,17 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "template",
+    srcs = [
+        "template.go",
+        "template_interface.go",
+    ],
+    importpath = "github.com/Loptt/infra-utils/template",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "template_test",
+    srcs = ["template_test.go"],
+    embed = [":template"],
+)

@@ -1,2 +1,3 @@
-# infra-utils
-Collection of utility libraries for infrastructure automation
+# Infra Utilities Go
+
+Collection of Go utility libraries for infrastructure automation

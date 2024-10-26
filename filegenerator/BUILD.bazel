@@ -1,0 +1,23 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "filegenerator",
+    srcs = [
+        "file_generator.go",
+        "file_generator_interface.go",
+    ],
+    importpath = "github.com/Loptt/infra-utils/filegenerator",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//template",
+        "@in_gopkg_yaml_v3//:yaml_v3",
+    ],
+)
+
+go_test(
+    name = "filegenerator_test",
+    srcs = ["file_generator_test.go"],
+    data = glob(["testdata/**"]),
+    embed = [":filegenerator"],
+    deps = ["//template"],
+)

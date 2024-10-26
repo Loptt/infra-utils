@@ -1,0 +1,18 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "file",
+    srcs = [
+        "file_manager.go",
+        "file_manager_fake.go",
+        "file_manager_interface.go",
+    ],
+    importpath = "github.com/Loptt/infra-utils/file",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "file_test",
+    srcs = ["file_manager_test.go"],
+    embed = [":file"],
+)

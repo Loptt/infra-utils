@@ -1,0 +1,24 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "deployinfo",
+    srcs = [
+        "deploy_data.go",
+        "deploy_info.go",
+        "deploy_info_interface.go",
+    ],
+    importpath = "github.com/Loptt/infra-utils/deployinfo",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//file",
+        "@in_gopkg_yaml_v3//:yaml_v3",
+    ],
+)
+
+go_test(
+    name = "deployinfo_test",
+    srcs = ["deploy_info_test.go"],
+    data = glob(["testdata/**"]),
+    embed = [":deployinfo"],
+    deps = ["//file"],
+)

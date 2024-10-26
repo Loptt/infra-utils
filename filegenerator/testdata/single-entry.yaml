@@ -1,0 +1,5 @@
+files:
+  - name: test.yaml
+    values:
+      a: b
+      c: d
